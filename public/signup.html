@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://t3.ftcdn.net/jpg/07/52/70/26/360_F_752702693_UcYNYcWgDY5fEwG3xN7j5iwFIPQGC3jx.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .navbar {
+            background-color: #444;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+
+        .signup-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .signup-box h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .signup-box form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .signup-box input[type="text"],
+        .signup-box input[type="email"],
+        .signup-box input[type="password"] {
+            width: 80%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .signup-box button {
+            width: 80%;
+            padding: 0.8rem;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .signup-box button:hover {
+            background-color: #555;
+        }
+
+        .login-option {
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .login-option a {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        Shinde's Kitchen
+    </div>
+
+    <div class="signup-container">
+        <div class="signup-box">
+            <h1>Signup</h1>
+            <form action="/signup" method="POST">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="login-option">
+                Already a user? <a href="/login.html">Log In</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

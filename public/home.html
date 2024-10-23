@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinde's Restaurant</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://t3.ftcdn.net/jpg/07/52/70/26/360_F_752702693_UcYNYcWgDY5fEwG3xN7j5iwFIPQGC3jx.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .navbar {
+            background-color: #444;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+
+        .tabs button {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .tabs button:hover {
+            background-color: #555;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .active {
+            display: block;
+        }
+
+        .home-content {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .table-menu {
+            display: flex;
+            justify-content: space-around;
+            padding: 2rem;
+        }
+
+        .menu, .tables {
+            width: 45%;
+        }
+
+        .tables ul, .menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .tables li, .menu li {
+            background-color: #f2f2f2;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tables li:hover, .menu li:hover {
+            background-color: #ddd;
+        }
+
+        .about-content {
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+        }
+
+        .orders-content {
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        button.submit-order {
+            padding: 0.8rem 2rem;
+            background-color: #000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button.submit-order:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        Shinde's Kitchen
+    </div>
+
+    <div class="tabs">
+        <button onclick="showTab('home')">Home</button>
+        <button onclick="showTab('about')">About</button>
+        <button onclick="showTab('orders')">Orders</button>
+    </div>
+
+    <!-- Home Tab Content -->
+    <div id="home" class="tab-content active">
+        <div class="home-content">
+            <h1>Welcome to Shinde's Kitchen</h1>
+            <p>Experience the best of Indian cuisine at Shinde's Kitchen, where tradition meets flavor! Our restaurant offers a wide variety of authentic Indian dishes, from delicious starters to mouth-watering curries.</p>
+        </div>
+
+        <!-- Table and Menu Section -->
+        <div class="table-menu">
+            <div class="tables">
+                <h2>Select Your Table</h2>
+                <ul id="table-list">
+                    <li onclick="selectTable('Table 1')">Table 1 - Near Window</li>
+                    <li onclick="selectTable('Table 2')">Table 2 - Family Section</li>
+                    <li onclick="selectTable('Table 3')">Table 3 - Near Garden</li>
+                    <li onclick="selectTable('Table 4')">Table 4 - Cozy Corner</li>
+                </ul>
+            </div>
+
+            <div class="menu">
+                <h2>Select Your Food</h2>
+                <ul id="menu-list">
+                    <li onclick="selectFood('Paneer Butter Masala', 250)">Paneer Butter Masala - ₹250</li>
+                    <li onclick="selectFood('Chicken Biryani', 300)">Chicken Biryani - ₹300</li>
+                    <li onclick="selectFood('Dal Tadka', 150)">Dal Tadka - ₹150</li>
+                    <li onclick="selectFood('Naan', 30)">Naan - ₹30</li>
+                    <li onclick="selectFood('Butter Chicken', 350)">Butter Chicken - ₹350</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="submit-order" onclick="submitOrder()">Submit Order</button>
+        </div>
+
+        <script>
+            let selectedTable = '';
+            const selectedFoodItems = [];
+
+            function selectTable(table) {
+                selectedTable = table;
+                alert(`Selected Table: ${selectedTable}`);
+            }
+
+            function selectFood(foodName, price) {
+                selectedFoodItems.push(foodName);
+                alert(`Added to Order: ${foodName} - ₹${price}`);
+            }
+
+            async function submitOrder() {
+                if (!selectedTable) {
+                    alert('Please select a table.');
+                    return;
+                }
+                if (selectedFoodItems.length === 0) {
+                    alert('Please select at least one food item.');
+                    return;
+                }
+
+                const totalPrice = selectedFoodItems.length * 250; // Assuming average price for calculation
+                const response = await fetch('/submit-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        table: selectedTable,
+                        foodItems: selectedFoodItems,
+                        totalPrice: totalPrice
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert(result.message);
+                } else {
+                    alert(result.message);
+                }
+            }
+
+            function showTab(tabName) {
+                var i;
+                var tabContent = document.getElementsByClassName('tab-content');
+                for (i = 0; i < tabContent.length; i++) {
+                    tabContent[i].classList.remove('active');
+                }
+                document.getElementById(tabName).classList.add('active');
+            }
+        </script>
+    </div>
+
+    <!-- About Tab Content -->
+    <div id="about" class="tab-content">
+        <div class="about-content">
+            <h1>About Us</h1>
+            <p>Shinde's Kitchen is dedicated to providing an authentic Indian dining experience. Our chefs are passionate about creating dishes that showcase the diverse flavors of India.</p>
+        </div>
+    </div>
+
+    <!-- Orders Tab Content -->
+    <div id="orders" class="tab-content">
+        <div class="orders-content">
+            <h1>Your Orders</h1>
+            <p>View your past orders here.</p>
+            <button onclick="fetchOrders()">Fetch Orders</button>
+            <div id="orders-list"></div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchOrders() {
+            const response = await fetch('/get-orders');
+            const result = await response.json();
+            const ordersList = document.getElementById('orders-list');
+            ordersList.innerHTML = ''; // Clear previous orders
+
+            if (result.success && result.orders.length > 0) {
+                result.orders.forEach(order => {
+                    const orderDiv = document.createElement('div');
+                    orderDiv.innerText = `Table: ${order.table_name}, Food Items: ${order.food_items}, Total Price: ₹${order.total_price}`;
+                    ordersList.appendChild(orderDiv);
+                });
+            } else {
+                ordersList.innerText = 'No orders found.';
+            }
+        }
+    </script>
+</body>
+</html>
